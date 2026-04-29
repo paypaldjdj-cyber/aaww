@@ -16,6 +16,7 @@
     "@vitejs/plugin-react": "^4.3.1"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "*"
+    "@rollup/rollup-linux-x64-gnu": "*",
+    "@esbuild/linux-x64": "*"
   }
 }
