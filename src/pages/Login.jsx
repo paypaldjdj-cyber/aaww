@@ -45,7 +45,7 @@ export default function Login() {
           margin: "0 auto 24px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32
         }}>🦷</div>
         
-        <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8 }}>{t("عيادة الابتسامة")}</h1>
+        <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8 }}>SmileCare</h1>
         <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 32 }}>{t("نظام إدارة العيادات الذكي")}</p>
 
         {error && (
@@ -108,7 +108,7 @@ export default function Login() {
       </div>
 
       <div style={{ position: "absolute", bottom: 24, fontSize: 11, color: "rgba(255,255,255,0.2)" }}>
-        EasyClinic Pro v2.5 · Premium SaaS Edition
+        SmileCare SaaS Edition v1.0 · Premium Iraqi Edition
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ const translations = {
     "الفواتير": "Invoices",
     "التقارير": "Reports",
     "الإعدادات": "Settings",
-    "عيادة الابتسامة": "Dental Smile Clinic",
+    "SmileCare": "SmileCare",
     
     // Home
     "مواعيد اليوم": "Today's Appointments",

@@ -40,7 +40,7 @@ export default function Layout({ children }) {
               width: 40, height: 40, borderRadius: 12, background: "linear-gradient(135deg, #185FA5, #00D2FF)",
               display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20
             }}>🦷</div>
-            <div style={{ fontWeight: 700, fontSize: 18, letterSpacing: -0.5 }}>{settings.clinic_name || t("عيادة الابتسامة")}</div>
+            <div style={{ fontWeight: 700, fontSize: 18, letterSpacing: -0.5 }}>{settings.clinic_name || t("SmileCare")}</div>
           </div>
         )}
 
