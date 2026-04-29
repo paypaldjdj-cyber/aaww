@@ -8,15 +8,16 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem("clinic_user");
-      if (saved && saved !== "undefined") {
-        setUser(JSON.parse(saved));
-      } else {
-        setUser(null);
+    const saved = localStorage.getItem("clinic_user");
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed && parsed.username) {
+          setUser(parsed);
+        }
+      } catch (e) {
+        localStorage.removeItem("clinic_user");
       }
-    } catch (e) {
-      setUser(null);
     }
     setLoading(false);
   }, []);
