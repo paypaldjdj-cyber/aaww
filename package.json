@@ -3,16 +3,16 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "vite --host",
-    "build": "npx vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.23.1"
+    "react-router-dom": "^6.23.1",
+    "vite": "^5.4.21"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.1",
-    "vite": "^5.4.21"
+    "@vitejs/plugin-react": "^4.3.1"
   }
 }
