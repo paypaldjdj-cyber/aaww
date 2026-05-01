@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://2f19eb68-c6ce-4fe4-b8b4-6cf53994a7ca-00-17qg9y3lrflch.pike.replit.dev";
+const API_BASE_URL = "http://localhost:5050";
 const BASE = `${API_BASE_URL}/api`;
 
 async function req(path, method = "GET", body = null) {
