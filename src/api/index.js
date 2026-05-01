@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:5050";
+const API_BASE_URL = "https://aaqq--paypaldjdj.replit.app";
 const BASE = `${API_BASE_URL}/api`;
 
 async function req(path, method = "GET", body = null) {
