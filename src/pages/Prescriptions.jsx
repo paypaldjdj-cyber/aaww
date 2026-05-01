@@ -52,11 +52,11 @@ export default function Prescriptions() {
 
   return (
     <div className="animate-fade">
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 32 }}>
+      <div className="presc-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
         <h2 style={{ fontSize: 22, fontWeight: 700 }}>{t("سجل الوصفات الطبية")}</h2>
         
         {!selectedPatient && (
-          <div style={{ position: "relative", width: 300 }}>
+          <div className="search-box" style={{ position: "relative", width: 300 }}>
             <input 
               type="text" 
               className="glass-input" 
@@ -165,6 +165,20 @@ export default function Prescriptions() {
           </div>
         </div>
       )}
+      <style>{`
+        .mobile-mode .presc-header {
+          flex-direction: column !important;
+          align-items: flex-start !important;
+          gap: 16px !important;
+        }
+        .mobile-mode .search-box {
+          width: 100% !important;
+        }
+        .mobile-mode [style*="display: grid"] {
+          grid-template-columns: 1fr !important;
+          gap: 16px !important;
+        }
+      `}</style>
     </div>
   );
 }

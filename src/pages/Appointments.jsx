@@ -149,7 +149,7 @@ export default function Appointments() {
         </button>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", gap: 24 }}>
+      <div className="appointments-grid" style={{ display: "grid", gridTemplateColumns: "340px 1fr", gap: 24 }}>
         {/* Calendar */}
         <div className="glass-panel" style={{ padding: 24 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>

@@ -41,14 +41,14 @@ export default function Expenses() {
 
   return (
     <div className="animate-fade">
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
+      <div className="expenses-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
         <h2 style={{ fontSize: 22, fontWeight: 700 }}>{isSecretary ? t("مصاريف اليوم") : t("المصاريف التشغيلية")}</h2>
         <button onClick={() => setModal(true)} className="btn-primary">
           <span>+</span> {t("إضافة مصروف")}
         </button>
       </div>
 
-      <div className="glass-panel" style={{ padding: 24, marginBottom: 24, display: "flex", alignItems: "center", justifyContent: "space-between", background: "linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(24, 95, 165, 0.05))" }}>
+      <div className="glass-panel expenses-summary" style={{ padding: 24, marginBottom: 24, display: "flex", alignItems: "center", justifyContent: "space-between", background: "linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(24, 95, 165, 0.05))" }}>
         <div>
           <div style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 4 }}>{isSecretary ? t("إجمالي مصاريف اليوم") : t("إجمالي المصاريف المسجلة")}</div>
           <div style={{ fontSize: 32, fontWeight: 800, color: "var(--danger)" }}>{total} {t("د")}</div>
@@ -125,6 +125,19 @@ export default function Expenses() {
           </div>
         </div>
         , document.body)}
+      <style>{`
+        .mobile-mode .expenses-header {
+          flex-direction: column !important;
+          align-items: stretch !important;
+          gap: 16px !important;
+        }
+        .mobile-mode .expenses-summary {
+          padding: 16px !important;
+        }
+        .mobile-mode .expenses-summary div:first-child div:last-child {
+          font-size: 24px !important;
+        }
+      `}</style>
     </div>
   );
 }

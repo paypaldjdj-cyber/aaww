@@ -3,16 +3,17 @@ const BASE = `${API_BASE_URL}/api`;
 
 async function req(path, method = "GET", body = null) {
   console.log(`API REQ: ${method} ${path}`, body);
-  let user = { clinic_id: 1 };
+  let user = null;
   try {
     const saved = localStorage.getItem("clinic_user");
     if (saved && saved !== "undefined") user = JSON.parse(saved);
   } catch (e) { }
+  
   const opts = {
     method,
     headers: {
       "Content-Type": "application/json",
-      "X-Username": user?.username || ""
+      "Authorization": user?.token ? `Bearer ${user.token}` : ""
     },
   };
   if (body) opts.body = JSON.stringify(body);
@@ -58,7 +59,7 @@ export const uploadPrescription = async (id, formData) => {
   const user = JSON.parse(localStorage.getItem("clinic_user") || "{}");
   const res = await fetch(`${BASE}/patients/${id}/prescriptions`, {
     method: "POST",
-    headers: { "X-Username": user?.username || "" },
+    headers: { "Authorization": user?.token ? `Bearer ${user.token}` : "" },
     body: formData
   });
   return res.json();

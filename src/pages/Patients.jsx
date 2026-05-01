@@ -67,20 +67,29 @@ export default function Patients() {
       </div>
 
       {/* Toolbar */}
-      <div className="glass-panel" style={{ padding: 16, marginBottom: 20, display: "flex", gap: 12 }}>
+      <div className="glass-panel patient-toolbar" style={{ padding: 12, marginBottom: 20, display: "flex", gap: 12 }}>
         <div style={{ flex: 1, position: "relative" }}>
           <span style={{ position: "absolute", right: 12, top: 10, color: "var(--text-muted)" }}>🔍</span>
           <input className="glass-input" placeholder={t("ابحث بالاسم أو الهاتف...")} 
             value={q} onChange={e => setQ(e.target.value)}
             style={{ width: "100%", paddingRight: 36 }} />
         </div>
-        <select className="glass-input" value={status} onChange={e => setStatus(e.target.value)} style={{ width: 160 }}>
+        <select className="glass-input status-select" value={status} onChange={e => setStatus(e.target.value)} style={{ width: 160 }}>
           <option value="">{t("جميع الحالات")}</option>
           <option value="جديد">{t("جديد")}</option>
           <option value="منتظم">{t("منتظم")}</option>
           <option value="مديون">{t("مديون")}</option>
         </select>
       </div>
+
+      <style>{`
+        .mobile-mode .patient-toolbar {
+          flex-direction: column !important;
+        }
+        .mobile-mode .status-select {
+          width: 100% !important;
+        }
+      `}</style>
 
       {/* Table */}
       <div className="glass-panel" style={{ overflow: "hidden" }}>

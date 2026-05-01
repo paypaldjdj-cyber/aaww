@@ -5,14 +5,18 @@
   --primary-light: #E6F1FB;
   --accent: #00D2FF;
   --bg-dark: #0f172a;
-  --bg-card: rgba(30, 41, 59, 0.7);
+  --bg-card: rgba(30, 41, 59, 0.6);
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   --glass: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.08);
   --success: #10b981;
   --danger: #ef4444;
   --warning: #f59e0b;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
 body.light-mode {
@@ -44,11 +48,12 @@ body {
 /* Glassmorphism Classes */
 .glass-panel {
   background: var(--bg-card);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .glass-input {
@@ -116,28 +121,30 @@ body.light-mode .glass-input option {
 
 /* Mobile Responsive Improvements */
 .mobile-mode {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .mobile-mode .glass-panel {
-  border-radius: 12px;
-  padding: 16px !important;
+  border-radius: var(--radius-md);
+  padding: 12px !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 }
 
-.mobile-mode h1 { font-size: 20px !important; }
-.mobile-mode h2 { font-size: 18px !important; }
-.mobile-mode h3 { font-size: 16px !important; }
+.mobile-mode h1 { font-size: 18px !important; margin-bottom: 4px !important; }
+.mobile-mode h2 { font-size: 16px !important; margin-bottom: 8px !important; }
+.mobile-mode h3 { font-size: 14px !important; margin-bottom: 6px !important; }
 
 .mobile-mode .nav-link {
   flex-direction: column;
-  gap: 4px !important;
-  padding: 8px 4px !important;
-  font-size: 10px !important;
+  gap: 2px !important;
+  padding: 6px 2px !important;
+  font-size: 9px !important;
   text-align: center;
+  border-radius: 0;
 }
 
 .mobile-mode .nav-link span:first-child {
-  font-size: 22px !important;
+  font-size: 20px !important;
 }
 
 .mobile-mode [style*="display: grid"]:not(.calendar-grid) {
@@ -145,20 +152,54 @@ body.light-mode .glass-input option {
   gap: 12px !important;
 }
 
+/* Specific card/layout fixes for mobile mode */
+.mobile-mode [style*="padding: 24px"],
+.mobile-mode [style*="padding: 32px"],
+.mobile-mode [style*="padding: 40px"] {
+  padding: 12px !important;
+}
+
+.mobile-mode [style*="margin-bottom: 32px"],
+.mobile-mode [style*="margin-bottom: 40px"] {
+  margin-bottom: 16px !important;
+}
+
+.mobile-mode [style*="gap: 24px"],
+.mobile-mode [style*="gap: 32px"] {
+  gap: 12px !important;
+}
+
 .mobile-mode table {
   display: block;
+  width: 100%;
   overflow-x: auto;
   white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobile-mode th, .mobile-mode td {
+  padding: 10px 12px !important;
+  font-size: 12px !important;
 }
 
 .mobile-mode .btn-primary, .mobile-mode .btn-ghost {
-  padding: 12px 16px !important;
+  padding: 10px 14px !important;
   width: 100%;
+  font-size: 13px;
+  height: 40px;
 }
 
 .mobile-mode .glass-input {
   width: 100% !important;
+  font-size: 14px;
+  padding: 8px 12px;
 }
+
+.desktop-only { display: block; }
+.mobile-only { display: none; }
+
+.mobile-mode .desktop-only { display: none; }
+.mobile-mode .mobile-only { display: block; }
 
 /* Animations */
 @keyframes fadeIn {

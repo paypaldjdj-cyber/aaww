@@ -1,17 +1,18 @@
+
 import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useLanguage } from "../LanguageContext";
 import { useAuth } from "../AuthContext";
 import { getInvoices, getInvoiceSummary, addInvoice, payInvoice, getPatients } from "../api";
 
-const localDate = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
+const localDate = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
 
 const StatItem = ({ label, value, color }) => {
   const { t } = useLanguage();
   return (
-    <div className="glass-panel" style={{ padding: 20 }}>
-      <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 4 }}>{t(label)}</div>
-      <div style={{ fontSize: 24, fontWeight: 700, color: color || "white" }}>{value}</div>
+    <div className="glass-panel" style={{ padding: 16 }}>
+      <div style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>{t(label)}</div>
+      <div style={{ fontSize: 20, fontWeight: 700, color: color || "white" }}>{value}</div>
     </div>
   );
 };
@@ -32,14 +33,14 @@ export default function Invoices() {
   const { user } = useAuth();
   const searchRef = useRef(null);
   const isSecretary = user?.role === "secretary";
-  const [invoices,  setInvoices]  = useState([]);
-  const [summary,   setSummary]   = useState({});
-  const [patients,  setPatients]  = useState([]);
-  const [q,         setQ]         = useState("");
-  const [modal,     setModal]     = useState(false);
-  const [payModal,  setPayModal]  = useState(null);
-  const [form,      setForm]      = useState({ patient_id:"", agreed_price:"", paid:"", payment_method:"Cash", date: localDate(), notes:"" });
-  const [payAmt,    setPayAmt]    = useState("");
+  const [invoices, setInvoices] = useState([]);
+  const [summary, setSummary] = useState({});
+  const [patients, setPatients] = useState([]);
+  const [q, setQ] = useState("");
+  const [modal, setModal] = useState(false);
+  const [payModal, setPayModal] = useState(null);
+  const [form, setForm] = useState({ patient_id: "", agreed_price: "", paid: "", payment_method: "Cash", date: localDate(), notes: "" });
+  const [payAmt, setPayAmt] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [showResults, setShowResults] = useState(false);
 
@@ -63,12 +64,12 @@ export default function Invoices() {
 
   const save = async () => {
     if (!form.patient_id || !form.agreed_price) return alert(t("أدخل المريض والمبلغ"));
-    await addInvoice({ ...form, patient_id: parseInt(form.patient_id), agreed_price: parseFloat(form.agreed_price), amount: 0, paid: parseFloat(form.paid)||0 });
+    await addInvoice({ ...form, patient_id: parseInt(form.patient_id), agreed_price: parseFloat(form.agreed_price), amount: 0, paid: parseFloat(form.paid) || 0 });
     setModal(false); load();
     setSearchTerm("");
   };
 
-  const filteredPatients = patients.filter(p => 
+  const filteredPatients = patients.filter(p =>
     `${p.first_name} ${p.last_name}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
     p.phone?.includes(searchTerm)
   );
@@ -83,19 +84,19 @@ export default function Invoices() {
     <div className="animate-fade">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
         <h2 style={{ fontSize: 22, fontWeight: 700 }}>{t("الفواتير والمدفوعات")}</h2>
-        <button onClick={() => { setForm({ patient_id:"", agreed_price:"", paid:"", payment_method:"Cash", date: localDate(), notes:"" }); setSearchTerm(""); setModal(true); }} className="btn-primary">
+        <button onClick={() => { setForm({ patient_id: "", agreed_price: "", paid: "", payment_method: "Cash", date: localDate(), notes: "" }); setSearchTerm(""); setModal(true); }} className="btn-primary">
           <span>+</span> {t("إصدار فاتورة جديدة")}
         </button>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, marginBottom: 24 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12, marginBottom: 20 }}>
         <StatItem label={isSecretary ? "إجمالي فواتير اليوم" : "إجمالي الفواتير"} value={(isSecretary ? summary.today_total : summary.total || 0) + " د"} />
         <StatItem label={isSecretary ? "المبالغ المحصلة اليوم" : "المبالغ المحصلة"} value={(isSecretary ? summary.today_collected : summary.collected || 0) + " د"} color="var(--success)" />
         <StatItem label="الديون المتبقية" value={(summary.debt || 0) + " د"} color="var(--danger)" />
       </div>
 
       <div className="glass-panel" style={{ padding: 16, marginBottom: 20 }}>
-        <input className="glass-input" placeholder={t("ابحث باسم المريض...")} 
+        <input className="glass-input" placeholder={t("ابحث باسم المريض...")}
           value={q} onChange={e => setQ(e.target.value)} style={{ width: "100%" }} />
       </div>
 
@@ -117,7 +118,7 @@ export default function Invoices() {
                 <td style={{ padding: "14px 20px", fontSize: 13, color: "var(--success)" }}>{i.paid} د</td>
                 <td style={{ padding: "14px 20px", fontSize: 13, color: "var(--danger)" }}>{i.amount - i.paid} د</td>
                 <td style={{ padding: "14px 20px" }}>
-                  <span style={{ 
+                  <span style={{
                     fontSize: 11, padding: "4px 10px", borderRadius: 20,
                     background: i.status === "مدفوع" ? "rgba(16, 185, 129, 0.1)" : "rgba(245, 158, 11, 0.1)",
                     color: i.status === "مدفوع" ? "#10b981" : "#f59e0b"
@@ -142,8 +143,8 @@ export default function Invoices() {
               <div style={{ position: "relative" }} ref={searchRef}>
                 <label style={lblStyle}>{t("المريض")}</label>
                 <div style={{ position: "relative" }}>
-                  <input 
-                    className="glass-input" 
+                  <input
+                    className="glass-input"
                     style={{ width: "100%", paddingRight: 40 }}
                     placeholder={t("بحث عن مريض...")}
                     value={searchTerm}
@@ -156,9 +157,9 @@ export default function Invoices() {
                   />
                   <span style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", opacity: 0.5 }}>🔍</span>
                 </div>
-                
+
                 {showResults && searchTerm && (
-                  <div className="glass-panel" style={{ 
+                  <div className="glass-panel" style={{
                     position: "absolute", top: "105%", left: 0, right: 0, zIndex: 100,
                     maxHeight: 240, overflowY: "auto", padding: 8,
                     boxShadow: "0 20px 50px rgba(0,0,0,0.6)",
@@ -168,13 +169,13 @@ export default function Invoices() {
                       <div style={{ padding: 12, color: "var(--text-muted)", textAlign: "center", fontSize: 13 }}>{t("لا يوجد نتائج")}</div>
                     ) : (
                       filteredPatients.map(p => (
-                        <div key={p.id} 
+                        <div key={p.id}
                           onClick={() => {
                             setForm({ ...form, patient_id: p.id });
                             setSearchTerm(`${p.first_name} ${p.last_name}`);
                             setShowResults(false);
                           }}
-                          style={{ 
+                          style={{
                             padding: "10px 16px", cursor: "pointer", borderRadius: 10,
                             background: form.patient_id == p.id ? "rgba(24, 95, 165, 0.3)" : "transparent",
                             marginBottom: 4, transition: "all 0.2s"
@@ -198,7 +199,7 @@ export default function Invoices() {
                 <label style={lblStyle}>{t("طريقة الدفع")}</label>
                 <div style={{ display: "flex", gap: 10 }}>
                   {["Cash", "Bank"].map(m => (
-                    <button key={m} onClick={() => setForm({...form, payment_method: m})}
+                    <button key={m} onClick={() => setForm({ ...form, payment_method: m })}
                       style={{ flex: 1, padding: "10px 0", borderRadius: 10, border: `2px solid ${form.payment_method === m ? (m === 'Cash' ? '#10b981' : '#00D2FF') : 'transparent'}`, background: form.payment_method === m ? (m === 'Cash' ? 'rgba(16,185,129,0.15)' : 'rgba(0,210,255,0.15)') : 'rgba(255,255,255,0.04)', color: form.payment_method === m ? (m === 'Cash' ? '#10b981' : '#00D2FF') : 'var(--text-muted)', fontWeight: 600, cursor: 'pointer', fontSize: 14, transition: 'all 0.15s' }}>
                       {m === 'Cash' ? t("Cash (الخزنة)") : t("Bank (البنك)")}
                     </button>
@@ -216,7 +217,7 @@ export default function Invoices() {
             </div>
           </div>
         </div>
-      , document.body)}
+        , document.body)}
     </div>
   );
 }

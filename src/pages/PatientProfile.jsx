@@ -61,24 +61,40 @@ export default function PatientProfile() {
   const totalPaid = payments.reduce((acc, curr) => acc + (curr.paid || 0), 0);
   const remaining = agreedPrice - totalPaid;
 
+  const isMobile = document.body.classList.contains("mobile-mode");
+
   return (
-    <div className="animate-fade" style={{ padding: 20 }}>
+    <div className="animate-fade" style={{ padding: isMobile ? 0 : 20 }}>
+      <style>{`
+        .mobile-mode .profile-grid {
+          grid-template-columns: 1fr !important;
+          gap: 20px !important;
+        }
+        .mobile-mode .finance-summary-grid {
+          grid-template-columns: 1fr !important;
+          gap: 10px !important;
+        }
+        .mobile-mode .glass-panel {
+          padding: 16px !important;
+        }
+      `}</style>
       {/* Header with Ongoing Toggle */}
-      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 20 }}>
+      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 16 }}>
         <div style={{ 
           background: isOngoing ? "#10b981" : "#64748b", 
-          padding: "8px 24px", borderRadius: 30, display: "flex", alignItems: "center", gap: 12, cursor: "pointer" 
+          padding: isMobile ? "6px 16px" : "8px 24px", 
+          borderRadius: 30, display: "flex", alignItems: "center", gap: 10, cursor: "pointer" 
         }} onClick={() => {
           const next = !isOngoing;
           setIsOngoing(next);
           saveProfile({ is_ongoing: next ? 1 : 0 });
         }}>
-          <span style={{ fontWeight: 700, color: "white" }}>{isOngoing ? t("Ongoing Case") : t("Closed Case")}</span>
-          <div style={{ width: 24, height: 24, borderRadius: "50%", background: "white" }} />
+          <span style={{ fontWeight: 700, color: "white", fontSize: isMobile ? 12 : 14 }}>{isOngoing ? t("Ongoing Case") : t("Closed Case")}</span>
+          <div style={{ width: isMobile ? 18 : 24, height: isMobile ? 18 : 24, borderRadius: "50%", background: "white" }} />
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 40 }}>
+      <div className="profile-grid" style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 40 }}>
         {/* Left Column: Form */}
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <FormInput label={t("الاسم الكامل")} val={patient.first_name + " " + patient.last_name} readOnly />
@@ -136,23 +152,23 @@ export default function PatientProfile() {
       {/* Simple Finance Section */}
       <div style={{ marginTop: 60, borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 40 }}>
         <div style={{ maxWidth: 800, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginBottom: 40 }}>
-            <div className="glass-panel" style={{ padding: 24, textAlign: "center" }}>
-              <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 8 }}>{t("إجمالي المبلغ المتفق عليه")}</div>
-              <div style={{ fontSize: 24, fontWeight: 700 }}>{agreedPrice.toLocaleString()} IQD</div>
+          <div className="finance-summary-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, marginBottom: 20 }}>
+            <div className="glass-panel" style={{ padding: 16, textAlign: "center", borderLeft: "4px solid var(--primary)" }}>
+              <div style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>{t("السعر الكلي المتفق عليه")}</div>
+              <div style={{ fontSize: 18, fontWeight: 700 }}>{agreedPrice.toLocaleString()} {t("د")}</div>
               <button className="btn-ghost" style={{ fontSize: 10, marginTop: 10, padding: "4px 12px" }} 
                 onClick={() => {
                   const val = prompt(t("تعديل المبلغ الكلي:"), agreedPrice);
                   if (val) saveProfile({ agreed_price: parseFloat(val) });
                 }}>{t("تعديل")}</button>
             </div>
-            <div className="glass-panel" style={{ padding: 24, textAlign: "center", borderLeft: "4px solid #10b981" }}>
-              <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 8 }}>{t("المبلغ المدفوع كلياً")}</div>
-              <div style={{ fontSize: 24, fontWeight: 700, color: "#10b981" }}>{totalPaid.toLocaleString()} IQD</div>
+            <div className="glass-panel" style={{ padding: 16, textAlign: "center", borderLeft: "4px solid #10b981" }}>
+              <div style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>{t("المبلغ المدفوع كلياً")}</div>
+              <div style={{ fontSize: 18, fontWeight: 700, color: "#10b981" }}>{totalPaid.toLocaleString()} {t("د")}</div>
             </div>
-            <div className="glass-panel" style={{ padding: 24, textAlign: "center", borderLeft: "4px solid #ef4444" }}>
-              <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 8 }}>{t("المبلغ المتبقي (دين)")}</div>
-              <div style={{ fontSize: 24, fontWeight: 700, color: "#ef4444" }}>{remaining.toLocaleString()} IQD</div>
+            <div className="glass-panel" style={{ padding: 16, textAlign: "center", borderLeft: "4px solid #ef4444" }}>
+              <div style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>{t("المبلغ المتبقي (دين)")}</div>
+              <div style={{ fontSize: 18, fontWeight: 700, color: "#ef4444" }}>{remaining.toLocaleString()} {t("د")}</div>
             </div>
           </div>
 

@@ -6,9 +6,9 @@ import { getFinancialStats, getStats } from "../api";
 const SummaryCard = ({ label, val, color }) => {
   const { t } = useLanguage();
   return (
-    <div className="glass-panel" style={{ padding: 24, textAlign: "center", borderTop: `4px solid ${color}` }}>
-      <div style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 8 }}>{label}</div>
-      <div style={{ fontSize: 24, fontWeight: 700 }}>{val?.toLocaleString()} {t("د")}</div>
+    <div className="glass-panel" style={{ padding: 16, textAlign: "center", borderTop: `4px solid ${color}`, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+      <div style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>{label}</div>
+      <div style={{ fontSize: 18, fontWeight: 700 }}>{val?.toLocaleString()} {t("د")}</div>
     </div>
   );
 };
@@ -38,7 +38,7 @@ export default function Reports() {
         <h2 style={{ fontSize: 22, fontWeight: 700 }}>{t("التقارير والإحصائيات")}</h2>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: isSecretary ? "repeat(2, 1fr)" : "repeat(4, 1fr)", gap: 16, marginBottom: 32 }}>
+      <div className="summary-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12, marginBottom: 24 }}>
         <SummaryCard label={t("إيرادات اليوم")} val={fin.collected_today} color="#10b981" />
         <SummaryCard label={t("صرفيات اليوم")} val={fin.expenses_today} color="#ef4444" />
         {!isSecretary && (
@@ -49,6 +49,12 @@ export default function Reports() {
           </>
         )}
       </div>
+
+      <style>{`
+        .mobile-mode .summary-grid {
+          grid-template-columns: 1fr 1fr !important;
+        }
+      `}</style>
 
       <div style={{ display: "grid", gridTemplateColumns: isSecretary ? "1fr" : "1.5fr 1fr", gap: 24, marginBottom: 24 }}>
         {/* Main Financial Report */}
